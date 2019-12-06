@@ -6,21 +6,21 @@ Przeanalizuj i zaimplementuj algorytmy wyszukiwania wzorca z wykorzystaniem auto
 
 ## Lista 2
 
-### Zadanie 1
+#### Zadanie 1
 Napisz we FLEX-ie program który czyta dowolny plik tekstowy, usuwa w nim wszystkie
 białe znaki na końcu i na początku wiersza, zmienia wszystkie wystąpienia ciągów tabulatorów i spacji na dokładnie jedną spację, likwiduje puste linie, oraz na końcu dopisuje liczbę
 linii i słów (ciągi znaków oddzielone białymi znakami).
 
-### Zadanie 2
+#### Zadanie 2
 Napisz w FLEX-ie program który usuwa wszystkie komentarze w plikach źródłowych XML.
 
-### Zadanie 3
+#### Zadanie 3
 Napisz w FLEX-ie program który usuwa wszystkie komentarze w programach napisanych
 w języku C++, a po włączeniu odpowiedniej opcji pozostawia komentarze dokumentacyjne
 (wg. Doxygen-a co najmniej następujące /**, /*!, /// i //!) i usuwa pozostałe.
 
 
-### Zadanie 4
+#### Zadanie 4
 Używając FLEX-a zaimplementuj prosty kalkulator postfiksowy (odwrotna notacja polska)
 dla liczb całkowitych wykonujący operacje dodawania (+), odejmowania (-), mnożenia (*),
 dzielenia całkowitoliczbowego (/), potęgowania (^) i modulo (%). Wyrażenie do policzenia
