@@ -1,0 +1,87 @@
+%{
+#define YYSTYPE int
+
+#include<string>
+#include<iostream>
+#include<cmath>
+
+using namespace std;
+
+int yylex();
+int yyerror(string);
+
+bool error = false;
+string expression = "";
+
+%}
+
+%token NUM
+%token END
+%token ERROR
+
+%token LBRACKET
+%token RBRACKET
+
+%left PLUS MINUS
+%left MULTIPLY DIVIDE MOD
+%right POW
+
+%precedence NEG
+
+%%
+input:
+    %empty
+    | input line
+;
+line: END | expr END 	{
+                    if (!error) 
+                        cout << expression << endl 
+                            << "wynik " << $$ << endl;
+                    error = false;
+                    expression = "";
+                }
+    | error END	{ 
+                    cout << "BŁĄD."  << endl;
+                    error = false;
+                    expression = "";
+                }
+;
+expr: 
+    NUM                       { expression += to_string($1) + " "; $$ = $1; }
+    | expr PLUS expr            { expression += "+ "; $$ = $1 + $3; }
+    | expr MINUS expr           { expression += "- "; $$ = $1 - $3; }
+    | expr MULTIPLY expr            { expression += "* "; $$ = $1 * $3; }
+    | expr DIVIDE expr             {expression += "/ ";
+                                    if ($3 == 0) {
+                                        yyerror ("DZIELENIE PRZEZ 0");
+                                    } else {
+                                        $$ = floor((double) $1/ (double) $3);
+                                    }
+                                }
+    | expr MOD expr             {
+                                    expression += "% ";
+                                    if ($3 == 0) {
+                                        yyerror ("MODULO 0");
+                                    } else {
+                                        $$ = $1 % $3;
+                                    }
+                                }
+    | MINUS NUM %prec NEG       {
+                                    expression += "-" 
+                                        + to_string($2) + " ";
+                                    $$ = -$2;
+                                }
+    | expr POW expr             { expression += "^ "; $$ = pow($1, $3); }
+    | LBRACKET expr RBRACKET    { $$ = $2; }
+%%
+
+int yyerror(string s)
+{
+    error = true;
+    return 0;
+}
+
+int main()
+{
+    return yyparse();;
+}
