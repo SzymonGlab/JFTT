@@ -1,0 +1,73 @@
+SUB 0
+STORE 7		# znak - dividend - 1 to "-" - 0 to "+"
+STORE 8     # znak divisor - 1 to "-" - 0 to "+"
+INC
+STORE 4		# multiple
+STORE 5 	# 1
+DEC
+DEC
+STORE 6		# -1
+GET
+JZERO 70    # b = 0
+STORE 2		# dividend (na koniec to jest reszta)
+JPOS 19 	# omiń zmianę flagi
+	SUB 0
+	SUB 2
+	STORE 2
+	LOAD 7
+	INC
+	STORE 7
+GET
+STORE 1 	# divisor
+STORE 9     # zapisana wartość b (divisor) na stałe do obliczania reszty
+JZERO 70	# return 0
+JPOS 31		# omiń zmianę flagi
+    SUB 0
+	SUB 1
+	STORE 1
+    STORE 9
+	LOAD 8
+	INC
+	STORE 8
+SUB 2
+JPOS 40		# skacz na koniec pierwszego while
+	LOAD 4
+	SHIFT 5
+	STORE 4
+	LOAD 1
+	SHIFT 5
+	STORE 1
+	JUMP 31	# skacz do odejmowania, żeby sprawdzić warunek pętli (divisor-divident < 0) BYŁO 32
+LOAD 1
+SUB 2
+	JPOS 46		# (divisor - dividend > 0), omijamy ifa
+		LOAD 2
+		SUB 1
+		STORE 2
+	LOAD 1
+	SHIFT 6
+	STORE 1
+	LOAD 4
+	SHIFT 6
+	STORE 4
+JPOS 40		# (multiple != 0) skacz do początku drugiej pętli (do load 1)
+LOAD 7
+JZERO 64        # DO: a > 0 
+LOAD 8
+JZERO 61       # DO: a < 0 b > 0
+    SUB 0    # a < 0 b < 0 
+    SUB 2
+    STORE 2
+    JUMP 70     # DO: WYNIK
+    LOAD 9   # a < 0 b > 0
+    SUB 2
+    JUMP 70    # DO: WYNIK
+LOAD 8
+JZERO 69           # DO: a > 0 b > 0
+LOAD 2
+SUB 9
+JUMP 70        # DO: WYNIK 
+LOAD 2 
+PUT
+HALT
+

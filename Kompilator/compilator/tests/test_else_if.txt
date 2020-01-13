@@ -1,0 +1,22 @@
+[ numbers.imp - liczby ]
+DECLARE
+	a, b,c
+BEGIN
+	a ASSIGN 8;
+	b ASSIGN 8;
+	IF a GE b THEN	[1]
+		WRITE 10;
+	ELSE 
+		IF a EQ b THEN
+			c ASSIGN 7;
+			IF c GE b THEN
+				WRITE 20;
+			ELSE
+				WRITE 30;
+			ENDIF	
+		ELSE 
+			WRITE 40;
+		ENDIF
+	ENDIF
+	
+END

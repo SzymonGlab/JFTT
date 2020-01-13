@@ -9,7 +9,7 @@ int yylex();
 %%
 ^#(.|\\\n)*\n   ;
 \\\n            ;
-[[:blank:]]+ 	  ;
+[[:blank:]]+ 	;
 [0-9]+          { yylval = atoi(yytext); return NUM; }
 "+"             { return PLUS;}
 "-"             { return MINUS;}

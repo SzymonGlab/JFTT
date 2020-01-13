@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "*.html": "html",
+        "vector": "cpp",
+        "ostream": "cpp",
+        "*.tcc": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "iostream": "cpp",
+        "string_view": "cpp",
+        "typeinfo": "cpp"
+    }
+}

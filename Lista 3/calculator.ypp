@@ -24,9 +24,12 @@ string expression = "";
 
 %left PLUS MINUS
 %left MULTIPLY DIVIDE MOD
-%right POW
 
+%right POW
 %precedence NEG
+
+
+
 
 %%
 input:
@@ -47,7 +50,7 @@ line: END | expr END 	{
                 }
 ;
 expr: 
-    NUM                       { expression += to_string($1) + " "; $$ = $1; }
+    NUM                         { expression += to_string($1) + " "; $$ = $1; }
     | expr PLUS expr            { expression += "+ "; $$ = $1 + $3; }
     | expr MINUS expr           { expression += "- "; $$ = $1 - $3; }
     | expr MULTIPLY expr            { expression += "* "; $$ = $1 * $3; }
@@ -66,12 +69,12 @@ expr:
                                         $$ = ($1 % $3 + $3) % $3;
                                     }
                                 }
+    | expr POW expr             { expression += "^ "; $$ = pow($1, $3); }
     | MINUS NUM %prec NEG       {
                                     expression += "-" 
                                         + to_string($2) + " ";
                                     $$ = -$2;
                                 }
-    | expr POW expr             { expression += "^ "; $$ = pow($1, $3); }
     | LBRACKET expr RBRACKET    { $$ = $2; }
 %%
 

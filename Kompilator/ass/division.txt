@@ -1,0 +1,64 @@
+SUB 0
+STORE 7		# flaga - 0 to nie zmieniaj znaku, w p.p. zmień
+STORE 3		# result
+INC
+STORE 4		# multiple
+STORE 5 	# 1
+DEC
+DEC
+STORE 6		# -1
+GET
+JZERO 60
+STORE 2		# dividend (na koniec to jest reszta)
+JPOS 19		# omiń zmianę flagi
+	SUB 0
+	SUB 2
+	STORE 2
+	LOAD 7
+	INC
+	STORE 7
+GET
+STORE 1 	# divisor
+JZERO 60	# return 0
+JPOS 29		# omiń zmianę flagi
+	LOAD 7
+	DEC
+	STORE 7
+	SUB 0
+	SUB 1
+	STORE 1
+SUB 2
+JPOS 38		# skacz na koniec pierwszego while
+	LOAD 4
+	SHIFT 5
+	STORE 4
+	LOAD 1
+	SHIFT 5
+	STORE 1
+	JUMP 29	# skacz do odejmowania, żeby sprawdzić warunek pętli (divisor-divident < 0)
+LOAD 1
+SUB 2
+	JPOS 47		# (divisor - dividend > 0), omijamy ifa
+		LOAD 2
+		SUB 1
+		STORE 2
+		LOAD 3
+		ADD 4
+		STORE 3
+	LOAD 1
+	SHIFT 6
+	STORE 1
+	LOAD 4
+	SHIFT 6
+	STORE 4
+JPOS 38		# (multiple != 0) skacz do początku drugiej pętli (do load 1)
+LOAD 7
+JZERO 60	# omiń zmianę znaku
+SUB 0
+SUB 3
+STORE 3
+JUMP 61		# do wypisania wyniku
+LOAD 3 
+PUT
+HALT
+

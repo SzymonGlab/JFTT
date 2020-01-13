@@ -1,0 +1,18 @@
+[ 16,17,18,19,20,21]
+DECLARE
+	a,b,c,d
+BEGIN
+	d ASSIGN 1;
+	c ASSIGN 5;
+	a ASSIGN 10;
+	FOR i FROM c DOWNTO d DO
+		FOR j FROM d TO c DO
+			a ASSIGN a PLUS 1;
+			IF a GE 15 THEN
+				IF a LEQ 21 THEN
+					WRITE a;
+				ENDIF
+			ENDIF
+		ENDFOR
+	ENDFOR
+END

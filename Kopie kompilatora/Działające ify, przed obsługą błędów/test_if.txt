@@ -1,0 +1,25 @@
+[ numbers.imp - liczby ]
+DECLARE
+	a, b,c
+BEGIN
+	a ASSIGN 6;
+	b ASSIGN 3;
+	IF a LE b THEN	[1]
+		WRITE 1;
+	ENDIF
+	IF a LEQ b THEN	[2]
+		WRITE 2;
+	ENDIF
+	IF a GE b THEN	[3]
+		WRITE 3;
+	ENDIF
+	IF a GEQ b THEN	[4]
+		WRITE 4;
+	ENDIF
+	IF a EQ b THEN	[5]
+		WRITE 5;
+	ENDIF
+	IF a NEQ b THEN	[6]
+		WRITE 6;
+	ENDIF
+END

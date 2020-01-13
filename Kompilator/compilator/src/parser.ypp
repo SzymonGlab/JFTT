@@ -1,0 +1,126 @@
+%{
+#include "compilator.hpp"    
+#include "compilator.cpp"    
+#include "arithmetics.cpp"
+#include "conditions.cpp"
+#include "in-out.cpp"
+#include "loops.cpp"    
+#include "utilities.cpp"    
+#include "variables.cpp"    
+
+#include<string>
+#include<iostream>
+#include<cmath>
+
+using namespace std;
+
+extern int yylex();
+extern int yylineno;
+extern FILE *yyin;
+int yyerror(string);
+
+%}
+
+%union{
+    char* str;
+    long long int NUMBER;
+}
+
+
+%token <str> NUMBER MINUS
+%token <str> DECLARE _BEGIN END IF THEN ELSE ENDIF
+%token <str> WHILE DO ENDWHILE ENDDO FOR FROM ENDFOR
+%token <str> COL WRITE READ PIDENTIFER SEM TO DOWNTO COMA
+%token <str> LB RB ASSIGN EQ LE GE LEQ GEQ NEQ ADD SUB MUL DIV MOD
+
+%type <str> commands
+%type <str> value
+%type <str> identifier
+%type <str> expression
+/// returns how many comands are in condition (for while loops)
+%type <str> condition
+
+
+%%
+
+program:
+     DECLARE declarations _BEGIN commands END                                   {add_command("HALT"); create_ASM("../result");}
+     | _BEGIN commands END                                                      {add_command("HALT"); create_ASM("../result");}
+    ;
+
+ declarations:
+      declarations COMA PIDENTIFER                                              {__declare_variable($3,yylineno);}                                                                         
+     | declarations COMA PIDENTIFER LB NUMBER COL NUMBER RB                     {__declare_array($3,$5,$7,yylineno);}
+     | PIDENTIFER                                                               {__declare_variable($1,yylineno);} 
+     | PIDENTIFER LB NUMBER COL NUMBER RB                                       {__declare_array($1,$3,$5,yylineno);}
+    ;
+
+ commands:
+        commands command                                                        {}
+       | command                                                                {}
+       ;
+
+ command:                                  
+         identifier ASSIGN expression SEM                                       {__assign_variable($1,$3,yylineno);}                                    
+         | IF condition THEN commands                                           {__if_else();}
+             ELSE commands ENDIF                                                {__end_if_else();}
+        | IF condition THEN commands ENDIF                                      {__end_if();}
+        | WHILE condition DO                                                    {__loop_while($2);}
+             commands ENDWHILE                                                  {__end_loop_while();}
+        | FOR PIDENTIFER FROM value TO value DO                                 {__loop_for($2,$4,$6,true,yylineno);}
+         commands ENDFOR                                                        {__end_loop_for(true);} 
+        | FOR PIDENTIFER FROM value DOWNTO value DO                             {__loop_for($2,$4,$6,false,yylineno);}
+         commands ENDFOR                                                        {__end_loop_for(false);} 
+        | READ identifier SEM                                                   {__read($2);}
+        | WRITE value SEM                                                       {__write($2,yylineno);}
+        | DO                                                                    {__loop_do_while();}                                                    
+        commands WHILE condition ENDDO                                          {__end_loop_do_while();}
+    ;
+
+ expression:
+    value                              
+    | value ADD value                                                           {$$ = __add($1,$3,yylineno);}                                                    
+    | value SUB value                                                           {$$ = __sub($1,$3,yylineno);}                                                   
+    | value MUL value                                                           {$$ = __mul($1,$3,yylineno);}                                                      
+    | value DIV value                                                           {$$ = __div($1,$3,yylineno);}                                                      
+    | value MOD value                                                           {$$ = __mod($1,$3,yylineno);}                                                      
+    ;
+
+  condition:
+    value EQ value                                                              {$$ = __EQ($1,$3);}
+    | value NEQ value                                                           {$$ = __NEQ($1,$3);}
+    | value LE value                                                            {$$ = __LE($1,$3);}
+    | value GE value                                                            {$$ = __GE($1,$3);}
+    | value LEQ value                                                           {$$ = __LEQ($1,$3);}
+    | value GEQ value                                                           {$$ = __GEQ($1,$3);}
+    ;
+
+ value:
+    NUMBER                                                                      {$$ = __create_temp_variable($1);}
+    | identifier                                                  
+    ;
+
+ identifier:
+    PIDENTIFER                                                                  {$$ = __read_variable($1, yylineno);}                                                                          
+    | PIDENTIFER LB NUMBER RB                                                   {$$ = __read_variable_from_arrayNUM($1,$3,yylineno);}
+    | PIDENTIFER LB PIDENTIFER RB                                               {$$ = __read_variable_from_arrayVAR($1,$3,yylineno);}
+    ;
+
+ %%
+
+int yyerror(string err) {
+    usleep(500000);
+    cout << "\e[1m\x1B[31m[ ERROR ]\e[0m \e[1m[ LINE " << yylineno << " ] \e[1m\x1B[31m" << err << ".\e[0m\n" << endl;
+    exit(1);
+}
+
+int main(int argc, char *argv[])
+{
+    createOnes();
+    yyin = fopen(argv[1], "r");
+    if (yyin == NULL)
+        cout << "NO FILE" << endl;
+	yyparse();
+    cout << "Compiled without errors •ᴗ•\n" << endl;
+	return 0;
+}
