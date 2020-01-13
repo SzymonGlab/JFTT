@@ -227,18 +227,11 @@ char *__div(string var1_address, string var2_address, int yylineno)
     add_command("STORE " + multiple);
     add_command("JPOS " + to_string(cmd_index - 15));
     add_command("LOAD " + flag);
-    add_command("JZERO " + to_string(cmd_index + 10));
+    add_command("JZERO " + to_string(cmd_index + 5));
     add_command("SUB 0");
     add_command("SUB " + result);
     add_command("STORE " + result);
-
-    add_command("LOAD " + num1_temp);
-    add_command("JNEG " + to_string(cmd_index + 5));
-    add_command("JZERO " + to_string(cmd_index + 4));
-    add_command("LOAD " + result);
-    add_command("DEC");
-    add_command("STORE " + result);
-
+    add_command("JUMP " + to_string(cmd_index + 2));
     add_command("LOAD " + result);
 
     return parseStringToChar(var1_address);
