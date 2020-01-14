@@ -1,7 +1,0 @@
-DECLARE
-	a, b, c
-BEGIN
-    a ASSIGN 10;
-	c ASSIGN 10 TIMES 2;
-    WRITE c;
-END
