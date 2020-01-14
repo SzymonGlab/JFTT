@@ -91,7 +91,7 @@ void create_jump()
     cmd_index_for_jumps.push(cmd_index);
 }
 
-void create_ASM(const char *fileName)
+void create_ASM(char *fileName)
 {
     ofstream code;
     code.open(fileName);

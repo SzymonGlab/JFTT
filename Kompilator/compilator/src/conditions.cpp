@@ -6,18 +6,12 @@
 
 void __end_if()
 {
-    // DEBUG
-    debug("END IF");
-
     asmCode.at(cmd_index_for_jumps.top() - 1) = asmCode.at(cmd_index_for_jumps.top() - 1) + to_string(cmd_index);
     cmd_index_for_jumps.pop();
 }
 
 void __if_else()
 {
-    // DEBUG
-    debug("IF ELSE");
-
     asmCode.at(cmd_index_for_jumps.top() - 1) = asmCode.at(cmd_index_for_jumps.top() - 1) + to_string(cmd_index + 1);
     cmd_index_for_jumps.pop();
 
@@ -27,9 +21,6 @@ void __if_else()
 
 void __end_if_else()
 {
-    // DEBUG
-    debug("END IF ELSE");
-
     asmCode.at(cmd_index_for_jumps.top() - 1) = asmCode.at(cmd_index_for_jumps.top() - 1) + to_string(cmd_index);
     cmd_index_for_jumps.pop();
 }
@@ -54,9 +45,6 @@ char *__EQ(string var1_address, string var2_address)
     {
         get_value_of_array_with_variable(var2.memory_index);
     }
-
-    // DEBUG
-    debug("==");
 
     add_command("LOAD " + var1_address);
     add_command("SUB " + var2_address);
@@ -85,9 +73,6 @@ char *__NEQ(string var1_address, string var2_address)
         get_value_of_array_with_variable(var2.memory_index);
     }
 
-    // DEBUG
-    debug("!=");
-
     add_command("LOAD " + var2_address);
     add_command("SUB " + var1_address);
     add_command("JZERO " + to_string(cmd_index + 3));
@@ -101,7 +86,6 @@ char *__NEQ(string var1_address, string var2_address)
 
 char *__GE(string var1_address, string var2_address)
 {
-    // DEBUG
     Variable var1 = get_variable_from_mem_index(var1_address);
     Variable var2 = get_variable_from_mem_index(var2_address);
 
@@ -115,9 +99,6 @@ char *__GE(string var1_address, string var2_address)
     {
         get_value_of_array_with_variable(var2.memory_index);
     }
-
-    // DEBUG
-    debug(">");
 
     add_command("LOAD " + var2_address);
     add_command("SUB " + var1_address);
@@ -134,7 +115,6 @@ char *__GE(string var1_address, string var2_address)
 
 char *__LE(string var1_address, string var2_address)
 {
-    // DEBUG
     Variable var1 = get_variable_from_mem_index(var1_address);
     Variable var2 = get_variable_from_mem_index(var2_address);
 
@@ -148,8 +128,6 @@ char *__LE(string var1_address, string var2_address)
     {
         get_value_of_array_with_variable(var2.memory_index);
     }
-    // DEBUG
-    debug("<");
 
     add_command("LOAD " + var2_address);
     add_command("SUB " + var1_address);
@@ -169,8 +147,6 @@ char *__GEQ(string var1_address, string var2_address)
     Variable var1 = get_variable_from_mem_index(var1_address);
     Variable var2 = get_variable_from_mem_index(var2_address);
 
-    // DEBUG
-    debug(">=");
     //check_both_variables_inicialized(var1_address, var2_address, yylineno);
 
     if (var1.type == 6)
@@ -200,9 +176,6 @@ char *__LEQ(string var1_address, string var2_address)
 {
     Variable var1 = get_variable_from_mem_index(var1_address);
     Variable var2 = get_variable_from_mem_index(var2_address);
-
-    // DEBUG
-    debug("<=");
     //check_both_variables_inicialized(var1_address, var2_address, yylineno);
 
     if (var1.type == 6)

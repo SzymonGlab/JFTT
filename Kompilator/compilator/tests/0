@@ -16,4 +16,3 @@ BEGIN
 	c ASSIGN a MOD b;
 	WRITE c;
 END
-

@@ -6,9 +6,6 @@
 
 char *__add(string var1_address, string var2_address, int yylineno)
 {
-    // DEBUG
-    debug("PLUS");
-
     check_both_variables_inicialized(var1_address, var2_address, yylineno);
 
     Variable var1 = get_variable_from_mem_index(var1_address);
@@ -31,8 +28,6 @@ char *__add(string var1_address, string var2_address, int yylineno)
 
 char *__sub(string var1_address, string var2_address, int yylineno)
 {
-    // DEBUG
-    debug("MINUS");
 
     check_both_variables_inicialized(var1_address, var2_address, yylineno);
 
@@ -56,9 +51,6 @@ char *__sub(string var1_address, string var2_address, int yylineno)
 
 char *__mul(string var1_address, string var2_address, int yylineno)
 {
-
-    // DEBUG
-    debug("MINUS");
 
     Variable var1 = get_variable_from_mem_index(var1_address);
     Variable var2 = get_variable_from_mem_index(var2_address);
@@ -136,8 +128,6 @@ char *__mul(string var1_address, string var2_address, int yylineno)
 
 char *__div(string var1_address, string var2_address, int yylineno)
 {
-    // DEBUG
-    debug("DIV");
 
     Variable var1 = get_variable_from_mem_index(var1_address);
     Variable var2 = get_variable_from_mem_index(var2_address);
@@ -246,8 +236,6 @@ char *__div(string var1_address, string var2_address, int yylineno)
 
 char *__mod(string var1_address, string var2_address, int yylineno)
 {
-    // DEBUG
-    debug("MOD");
 
     Variable var1 = get_variable_from_mem_index(var1_address);
     Variable var2 = get_variable_from_mem_index(var2_address);

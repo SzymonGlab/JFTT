@@ -1,7 +1,7 @@
 [ sito Eratostenesa ]
 DECLARE
     n, j, sito(2:100)
-BERIN
+BEGIN
     n ASSIGN 100;
     FOR i FROM n DOWNTO 2 DO
         sito(i) ASSIGN 1;

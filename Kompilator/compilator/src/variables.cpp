@@ -6,9 +6,6 @@
 
 void __declare_variable(string name, int yylineno)
 {
-    //DEBUG
-    debug("DECLARE VARIABLE");
-
     bool var_created = create_variable(name, 2, getMemory(), 1, 1, 1, false);
 
     if (!var_created)
@@ -19,9 +16,6 @@ void __declare_variable(string name, int yylineno)
 
 void __declare_array(string name, string start, string end, int yylieno)
 {
-    // DEBUG
-    debug("DECLARE ARRAY");
-
     long long int size = stoll(end) - stoll(start);
 
     if (size < 0)
@@ -41,10 +35,7 @@ void __declare_array(string name, string start, string end, int yylieno)
 
 void __assign_variable(string mem_index, string variable_to_assign, int yylineno)
 {
-    // DEBUG
-    debug("ASSIGN VARIABLE");
-
-    Variable var_to_assign = get_variable_from_mem_index(variable_to_assign);
+      Variable var_to_assign = get_variable_from_mem_index(variable_to_assign);
 
     if (!var_to_assign.inicialized)
     {
@@ -72,11 +63,8 @@ void __assign_variable(string mem_index, string variable_to_assign, int yylineno
     }
 }
 
-char *__create_temp_variable(string value)
+char *__create_number(string value)
 {
-    // DEBUG
-    debug("READ NUMBER");
-
     if (stoll(value) == 1)
     {
         add_command("LOAD " + to_string(oneIndex));
@@ -109,9 +97,6 @@ char *__create_temp_variable(string value)
 
 char *__read_variable(string var_name, int yylineno)
 {
-    // DEBUG
-    debug("READ VARIABLE");
-
     try
     {
         // If it's first element of array e.g. we declare array arr(10:20), type 4 is variable arr.
@@ -137,9 +122,6 @@ char *__read_variable(string var_name, int yylineno)
 
 char *__read_variable_from_arrayNUM(string array_name, string index, int yylineno)
 {
-    // DEBUG
-    debug("READ VARIABLE FROM ARRAY (NUMBER)");
-
     Variable var;
 
     Variable arr = variables.at(array_name);
@@ -176,10 +158,7 @@ char *__read_variable_from_arrayNUM(string array_name, string index, int yylinen
 
 char *__read_variable_from_arrayVAR(string array_name, string index, int yylineno)
 {
-    // DEBUG
-    debug("READ VARIABLE FROM ARRAY (VARIABLE)");
-
-    Variable index_variable;
+     Variable index_variable;
     Variable array;
     try
     {

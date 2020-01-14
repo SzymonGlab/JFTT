@@ -4,61 +4,48 @@
 //      IN / OUT         //
 ///////////////////////////
 
-void __read(string var_memory_index)
+void __read(string var_address)
 {
-    // DEBUG
-    debug("READ");
+      add_command("GET");
 
-    add_command("GET");
-
-    if (find(array_index_variables.begin(), array_index_variables.end(), stoll(var_memory_index)) != array_index_variables.end())
+    if (find(array_index_variables.begin(), array_index_variables.end(), stoll(var_address)) != array_index_variables.end())
     {
-        add_command("STOREI " + var_memory_index);
+        add_command("STOREI " + var_address);
     }
     else
     {
-        add_command("STORE " + var_memory_index);
+        add_command("STORE " + var_address);
     }
 
-    Variable var = get_variable_from_mem_index(var_memory_index);
+    Variable var = get_variable_from_mem_index(var_address);
     var.inicialized = true;
     update_variables(var);
 }
 
-void __write(string var, int yylineno)
+void __write(string var_address, int yylineno)
 {
-    // DEBUG
-    debug("WRITING");
 
-    if (var == to_string(oneIndex) || var == to_string(minusOneIndex))
+    if (var_address == to_string(oneIndex) || var_address == to_string(minusOneIndex))
     {
-        add_command("LOAD " + var);
+        add_command("LOAD " + var_address);
         add_command("PUT");
         return;
     }
 
-    Variable var_to_write = get_variable_from_mem_index(var);
+    Variable var_to_write = get_variable_from_mem_index(var_address);
 
     if (!var_to_write.inicialized)
     {
         error(var_to_write.name, yylineno, "Variable was not inicialized");
     }
 
-    long long int var_memory_index = stoll(var);
-
-    if (var_to_write.name == "tab")
-    {
-        cout << "VAR = "<<var<<endl;
-        cout << "var_memory_index = " << to_string(var_memory_index) << endl; 
-    }
-
     if (var_to_write.type == 6)
     {
-        add_command("LOADI " + to_string(var_memory_index));
+        add_command("LOADI " + var_address);
     }
     else
     {
-        add_command("LOAD " + var);
+        add_command("LOAD " + var_address);
     }
 
     add_command("PUT");

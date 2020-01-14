@@ -5,11 +5,9 @@
 //          LOOPS        //
 ///////////////////////////
 
-void __loop_for(string variable, string from, string to, bool isTo, int yylineno)
+void __loop_for(string iterator, string from, string to, bool isTo, int yylineno)
 {
-    // DEBUG
-    debug("FOR LOOP");
-
+    
     check_both_variables_inicialized(from, to, yylineno);
 
     Variable var1 = get_variable_from_mem_index(from);
@@ -27,7 +25,7 @@ void __loop_for(string variable, string from, string to, bool isTo, int yylineno
 
 
     long long int it_mem = getMemory();
-    Iterator it = {variable, it_mem};
+    Iterator it = {iterator, it_mem};
     loop_iterators.push(it);
     string max_iterator = to_string(getMemory());
 
@@ -36,7 +34,7 @@ void __loop_for(string variable, string from, string to, bool isTo, int yylineno
 
     if (!var_created)
     {
-        error(variable, yylineno, "Iterator declared before");
+        error(iterator, yylineno, "Iterator declared before");
     }
 
     add_command("LOAD " + from);
@@ -50,26 +48,15 @@ void __loop_for(string variable, string from, string to, bool isTo, int yylineno
     if (isTo)
     {
         __LEQ(to_string(it.memory_index),max_iterator);
-        // add_command("LOAD " + max_iterator);
-        // add_command("SUB " + to_string(it.memory_index));
-        // add_command("JNEG ");
-        // create_jump();
-
     }
     else
     {
         __GEQ(to_string(it.memory_index),max_iterator);
-        // add_command("LOAD " + to_string(it.memory_index));
-        // add_command("SUB " + max_iterator);
-        // add_command("JNEG ");
-        // create_jump();
     }
 }
 
 void __end_loop_for(bool isTo)
 {
-    // DEBUG
-    debug("END FOR LOOP");
 
     add_command("LOAD " + to_string(loop_iterators.top().memory_index));
     if (isTo)
@@ -98,19 +85,13 @@ void __end_loop_for(bool isTo)
 
 void __loop_while(string condition_length)
 {
-    // DEBUG
-    debug("WHILE LOOP");
-
     int cond_length = stoi(condition_length);
     cmd_index_for_jumps.push(cmd_index - cond_length);
 }
 
 void __end_loop_while()
 {
-    // DEBUG
-    debug("END WHILE LOOP");
-
-
+  
     add_command("JUMP " + to_string(cmd_index_for_jumps.top()));
     cmd_index_for_jumps.pop();
 
@@ -120,17 +101,11 @@ void __end_loop_while()
 
 void __loop_do_while()
 {
-    // DEBUG
-    debug("DO WHILE LOOP");
-
     create_jump();
 }
 
 void __end_loop_do_while()
 {
-    // DEBUG
-    debug("END DO WHILE LOOP");
-
     asmCode.at(cmd_index_for_jumps.top() - 1) = asmCode.at(cmd_index_for_jumps.top() - 1) + to_string(cmd_index);
     cmd_index_for_jumps.pop();
     add_command("JUMP " + to_string(cmd_index_for_jumps.top()));

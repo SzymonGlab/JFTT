@@ -44,8 +44,8 @@ int yyerror(string);
 %%
 
 program:
-     DECLARE declarations _BEGIN commands END                                   {add_command("HALT"); create_ASM("../result");}
-     | _BEGIN commands END                                                      {add_command("HALT"); create_ASM("../result");}
+     DECLARE declarations _BEGIN commands END                                   {add_command("HALT");}
+     | _BEGIN commands END                                                      {add_command("HALT");}
     ;
 
  declarations:
@@ -96,7 +96,7 @@ program:
     ;
 
  value:
-    NUMBER                                                                      {$$ = __create_temp_variable($1);}
+    NUMBER                                                                      {$$ = __create_number($1);}
     | identifier                                                  
     ;
 
@@ -118,9 +118,12 @@ int main(int argc, char *argv[])
 {
     createOnes();
     yyin = fopen(argv[1], "r");
-    if (yyin == NULL)
-        cout << "NO FILE" << endl;
+    if (argv[1] == NULL || argv[2] == NULL){
+        cout << "\e[1m\x1B[31m[ USAGE ]\e[0m \e[1m compiler_name file_in file_out \e[0m\n" << endl;
+        exit(1);
+    }
 	yyparse();
-    cout << "Compiled without errors •ᴗ•\n" << endl;
+    create_ASM(argv[2]);
+    cout << "Compiled without errors." << endl;
 	return 0;
 }
