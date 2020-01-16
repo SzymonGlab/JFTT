@@ -35,7 +35,7 @@ void __declare_array(string name, string start, string end, int yylieno)
 
 void __assign_variable(string mem_index, string variable_to_assign, int yylineno)
 {
-      Variable var_to_assign = get_variable_from_mem_index(variable_to_assign);
+    Variable var_to_assign = get_variable_from_mem_index(variable_to_assign);
 
     if (!var_to_assign.inicialized)
     {
@@ -44,6 +44,11 @@ void __assign_variable(string mem_index, string variable_to_assign, int yylineno
 
     Variable var_assigned = get_variable_from_mem_index(mem_index);
     var_assigned.inicialized = true;
+
+    if(var_to_assign.type == 5){
+        error(var_to_assign.name, yylineno, "Wrong use of iterator variable");
+    }
+
 
     // if (var_to_assign.type == 6){
     //  var_assigned.type = 6;
@@ -104,7 +109,6 @@ char *__read_variable(string var_name, int yylineno)
         {
             error(var_name, yylineno, "Wrong use of array variable");
         }
-
         else
         {
 

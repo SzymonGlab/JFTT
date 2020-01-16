@@ -102,11 +102,12 @@ void __end_loop_while()
 void __loop_do_while()
 {
     create_jump();
+        
 }
 
 void __end_loop_do_while()
 {
-    asmCode.at(cmd_index_for_jumps.top() - 1) = asmCode.at(cmd_index_for_jumps.top() - 1) + to_string(cmd_index);
+    asmCode.at(cmd_index_for_jumps.top() - 1) = asmCode.at(cmd_index_for_jumps.top() - 1) + to_string(cmd_index+1);
     cmd_index_for_jumps.pop();
     add_command("JUMP " + to_string(cmd_index_for_jumps.top()));
     cmd_index_for_jumps.pop();

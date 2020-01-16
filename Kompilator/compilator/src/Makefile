@@ -1,6 +1,6 @@
 
 all: parser.tab lexer.l.c
-	g++ -o compilator -std=c++1z parser.tab.cpp lexer.l.c 
+	g++ -o kompilator -std=c++1z parser.tab.cpp lexer.l.c 
 
 lexer.l.c: lexer.l
 	flex -o lexer.l.c lexer.l

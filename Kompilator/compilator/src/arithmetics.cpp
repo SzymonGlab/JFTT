@@ -151,6 +151,11 @@ char *__div(string var1_address, string var2_address, int yylineno)
         long long int var1_value = get_value_of_variable_from_memory_index(var1_address);
         long long int var2_value = get_value_of_variable_from_memory_index(var2_address);
 
+        if(var2_value == 0){
+            add_command("SUB 0");
+            return parseStringToChar(var1_address);
+        }
+
         create_number(var1_value / var2_value, getMemory());
         return parseStringToChar(var1_address);
     }
