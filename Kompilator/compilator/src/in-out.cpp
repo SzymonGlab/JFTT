@@ -20,6 +20,7 @@ void __read(string var_address)
     Variable var = get_variable_from_mem_index(var_address);
     var.inicialized = true;
     update_variables(var);
+    set_variable_inicialized(var);
 }
 
 void __write(string var_address, int yylineno)
@@ -34,10 +35,10 @@ void __write(string var_address, int yylineno)
 
     Variable var_to_write = get_variable_from_mem_index(var_address);
 
-    if (!var_to_write.inicialized)
-    {
-        error(var_to_write.name, yylineno, "Variable was not inicialized");
-    }
+    // if (!var_to_write.inicialized)
+    // {
+    //     error(var_to_write.name, yylineno, "Variable was not inicialized");
+    // }
 
     if (var_to_write.type == 6)
     {

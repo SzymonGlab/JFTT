@@ -202,11 +202,11 @@ void create_number(long long int number, long long int mem_index)
         }
     }
     if (negative)
-        {
-            add_command("SUB 0");
-            add_command("SUB " + to_string(mem_index));
-            add_command("STORE " + to_string(mem_index));
-        }
+    {
+        add_command("SUB 0");
+        add_command("SUB " + to_string(mem_index));
+        add_command("STORE " + to_string(mem_index));
+    }
 }
 
 void check_both_variables_inicialized(string var1_memory, string var2_memory, int yylieno)
@@ -219,15 +219,28 @@ void check_both_variables_inicialized(string var1_memory, string var2_memory, in
     {
         if (!var1.inicialized)
         {
-            error(var1.name, yylieno, "Variable was not assigned");
+            // notInicializedVariables.push_back(var1);
         }
         else
         {
-            error(var2.name, yylieno, "Variable was not assigned");
+            // notInicializedVariables.push_back(var2);
         }
     }
-    // It is needed in ASSIGN method because, we mmmust know when we assign result of arithmetics and when a new variable.
-    both_variables_inicialized = true;
+}
+
+void set_variable_inicialized(Variable var)
+{
+    int index = 0;
+    notInicializedVariables.erase(var.name);
+}
+
+void set_variable_used(Variable var, int yylineno)
+{
+    if (notInicializedVariables.find(var.name) != notInicializedVariables.end())
+    {
+        Error_variable err = {var.name, yylineno, true};
+        notInicializedVariables[var.name] = err;
+    }   
 }
 
 void get_value_of_array_with_variable(long long int address)
@@ -251,10 +264,10 @@ void iterateVariables()
 
         // Increment the Iterator to point to next entry
         it++;
-    }   
+    }
 }
 
- void debug(string str) {
-        cout << str << endl;
+void debug(string str)
+{
+    cout << str << endl;
 }
-

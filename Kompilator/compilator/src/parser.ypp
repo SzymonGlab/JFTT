@@ -44,8 +44,8 @@ int yyerror(string);
 %%
 
 program:
-     DECLARE declarations _BEGIN commands END                                   {add_command("HALT");}
-     | _BEGIN commands END                                                      {add_command("HALT");}
+     DECLARE declarations _BEGIN commands END                                   {__end();}
+     | _BEGIN commands END                                                      {__end();}
     ;
 
  declarations:

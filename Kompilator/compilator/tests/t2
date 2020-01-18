@@ -1,7 +1,6 @@
 DECLARE
     j, k
 BEGIN
-    j ASSIGN 0;
     READ k;
     FOR i FROM 0 TO k DO
         IF i GE 1 THEN

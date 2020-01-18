@@ -38,6 +38,16 @@ typedef struct
 	long long int memory_index;
 } Iterator;
 
+typedef struct
+{
+	string name;
+	long long int line;
+	bool used;
+} Error_variable;
+
+// Variables that are used in program, but they are assigned after use.
+map<string,Error_variable> notInicializedVariables;
+
 map<string, Variable> variables;
 vector<string> asmCode;
 vector<long long int> array_index_variables;
@@ -48,7 +58,6 @@ long long int memoryCounter = 1;
 long long int cmd_index = 0;
 int oneIndex;
 int minusOneIndex;
-bool both_variables_inicialized;
 
 ///////////////////////////
 //		 MEMORY			 //
@@ -134,6 +143,12 @@ char *__read_variable_from_arrayNUM(string array_name, string index, int yylinen
 // Loads array variable e.g a(x)
 char *__read_variable_from_arrayVAR(string array_name, string index, int yylineno);
 
+// Deletes from not inicialized variables list
+void set_variable_inicialized(Variable var);
+
+//Updates given var as used
+void set_variable_used(Variable var, int yylineno);
+
 ///////////////////////////
 //		 IN / OUT		 //
 ///////////////////////////
@@ -169,6 +184,9 @@ void __end_loop_do_while();
 ///////////////////////////
 //		 UTILITIES		 //
 ///////////////////////////
+
+// Checks if all used variables were inicilaized and adds HALT
+void __end(); 
 
 // Adds assembler command to vector
 void add_command(string command);
